@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+	
+	<link rel="stylesheet" href="css/theme.css">
+	
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background-color: #0b4f8a;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav .search input[type="text"] {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        h2 {
+            color: #0b4f8a;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+            margin: 30px auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+			background-color: #0d6ea6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #095a87;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link a {
+            color: #1ba6df;
+            text-decoration: none;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+	
+	<header>
+		<button onclick="toggleDarkMode()">🌙</button>
+	</header>
+
+   
+    <!-- Login Form -->
+    <h2>Login</h2>
+
+    <form th:action="@{/login}" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required />
+
+        <label for="pwd">Password:</label>
+        <input type="password" name="pwd" id="pwd" required />
+
+        <div style="text-align: center;">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+
+    <!-- Error message -->
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <!-- Register link -->
+    <div class="link">
+        <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+    </div>
+
+	<script src="js/common.js"></script>
+</body>
+</html>

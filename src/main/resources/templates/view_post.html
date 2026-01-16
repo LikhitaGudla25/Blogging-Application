@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.title}">ExcelR Blog App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="css/theme.css">
+	
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .navbar {
+			background-color: #0b4f8a;
+        }
+        .navbar a, .navbar-brand {
+            color: white !important;
+        }
+        .search-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.1);
+        }
+        .footer {
+			background-color: #0b4f8a;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #1ba6df;
+        }
+        .comment {
+            margin-bottom: 20px;
+        }
+        .comment strong {
+            color: #0d6ea6;
+        }
+        form {
+            margin-top: 30px;
+            background-color: #fdfdfd;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            margin-top: 20px;
+			background-color: #0d6ea6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+			background-color: #095a87;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">ExcelR Blog App</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/dashboard}">Home</a>
+            <a class="nav-link" th:href="@{/register}">Register</a>
+            <a class="nav-link" th:href="@{/login}">Login</a>
+			<button onclick="toggleDarkMode()">🌙</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left: Post + Comments -->
+        <div class="col-md-9">
+            <h1 th:text="${post.title}">Post Title</h1>
+            <p th:text="${post.content}">Post Content</p>
+
+            <hr>
+            <h3>Comments</h3>
+            <div th:each="comment : ${comments}" class="comment">
+                <strong th:text="${comment.name}">User</strong> says:
+                <p th:text="${comment.content}">Comment Content</p>
+            </div>
+
+            <!-- Add Comment Form -->
+            <div th:if="${user != null and user.id != post.user.id}">
+                <h4>Add a Comment</h4>
+                <form th:action="@{/comment/{postId}(postId=${post.id})}" th:object="${commentObj}" method="post">
+                    <label>Name:</label>
+                    <input type="text" th:field="*{name}" required />
+
+                    <label>Email:</label>
+                    <input type="email" th:field="*{email}" required />
+
+                    <label>Comment:</label>
+                    <textarea th:field="*{content}" required></textarea>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!-- Author can't comment -->
+            <div th:if="${user != null and user.id == post.user.id}">
+                <p>You cannot comment on your own post.</p>
+            </div>
+        </div>
+
+        <!-- Right: Search Box -->
+        <div class="col-md-3">
+            <div class="search-box">
+                <h5>Blog Search</h5>
+                <form th:action="@{/search}" method="get">
+                    <input type="text" name="query" class="form-control mb-2" placeholder="Search blogs..." th:value="${query}">
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container">
+        Copyright © 2023 <a href="#">ExcelR</a>. All rights reserved.
+    </div>
+</div>
+
+<script src="js/common.js"></script>
+
+
+</body>
+</html>

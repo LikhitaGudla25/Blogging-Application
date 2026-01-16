@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+	
+	<link rel="stylesheet" href="css/theme.css">
+	
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f6f9;
+        }
+
+        h2 {
+            color: #0b4f8a;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0d6ea6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #095a87;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link a {
+            color: #1ba6df;
+            text-decoration: none;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+	
+	<header>
+		<button onclick="toggleDarkMode()">🌙</button>
+	</header>
+	
+	
+    <h2 style="text-align: center;">Registration</h2>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <label>First Name:</label>
+        <input type="text" th:field="*{fname}" required />
+
+        <label>Last Name:</label>
+        <input type="text" th:field="*{lname}" required />
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required />
+        
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        
+
+        <label>Password:</label>
+        <input type="password" th:field="*{pwd}" required />
+
+        <div style="text-align: center;">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+
+    <div class="link">
+        Already registered? <a href="/login">Login</a>
+    </div>
+	
+	<script src="js/common.js"></script>
+	
+</body>
+</html>

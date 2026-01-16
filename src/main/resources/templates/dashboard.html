@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+	
+	<link rel="stylesheet" href="css/theme.css">
+	
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 30px;
+        }
+
+        .navbar {
+            background-color: #0b4f8a;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        h1 {
+            color: #1f2937;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0b4f8a;
+            color: white;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .btn-edit {
+            background-color: #0d6ea6;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .search-container {
+            margin-top: 10px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 6px;
+            width: 300px;
+        }
+
+        .search-container button {
+            padding: 6px 12px;
+            background-color: #0d6ea6;
+            color: white;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+
+	<div class="navbar">
+	    <a th:href="@{/dashboard}">Excelr Edtech Pvt Ltd</a>
+	    <a th:href="@{/posts}">Posts</a>
+	    <a th:href="@{/create}">New Post</a>
+	    <a th:href="@{/comments}">Comments</a>
+	    <a th:href="@{/logout}">Logout</a>
+		<button onclick="toggleDarkMode()">🌙</button>
+	</div>
+
+
+    <h1>List of Blog Posts</h1>
+
+    <div class="search-container">
+        <form th:action="@{/search}" method="get">
+            <input type="text" name="query" placeholder="Search by title..." />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+	<table> 
+		<thead> 
+			<tr> 
+				<th>#</th> 
+				<th>Post Title</th> 
+				<th>Post Short Description</th> 
+				<th>Post Created On</th> 
+				<th>Actions</th> 
+				<th>Status</th> 
+			</tr> 
+		</thead> 
+		<tbody> 
+			<tr th:each="post, iterStat : ${posts}"> 
+				<td th:text="${iterStat.index + 1}">1</td> 
+				<td th:text="${post.title}">Post Title</td> 
+				<td th:text="${post.description}">Short description</td> 
+				<td th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">02 May 2023</td> 
+				<td> <a th:href="@{/edit/{id}(id=${post.id})}" class="btn btn-edit">Edit</a> <a th:href="@{/delete/{id}(id=${post.id})}" class="btn btn-delete">Delete</a> </td> 
+				<td th:text="${post.status}"></td> 
+			</tr> 
+		</tbody> 
+	</table>
+
+	<script src="js/common.js"></script>
+	
+</body>
+</html>

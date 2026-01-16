@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ExcelR Blog App</title>
+	
+	<link rel="stylesheet" href="css/theme.css">
+	
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .navbar {
+            background-color: #0b4f8a;
+        }
+        .navbar a, .navbar-brand {
+            color: white !important;
+        }
+        .card {
+            margin-bottom: 20px;
+			border: none;
+			box-shadow: 0 4px 14px rgba(11,79,138,0.12);
+        }
+        .search-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.1);
+        }
+        .footer {
+            background-color: #0b4f8a;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #1ba6df;
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+	    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #111;">
+	        <a class="navbar-brand" th:href="@{/posts}">ExcelR Blog App</a>
+	        <div class="navbar-nav">
+	            <a class="nav-link ml-3" th:href="@{/posts}">Home</a>
+	            <a class="nav-link ml-3" th:href="@{/posts}">Posts</a>
+	            <a class="nav-link ml-3" th:href="@{/register}">Register</a>
+	            <a class="nav-link ml-3" th:href="@{/login}">Login</a>
+				<button onclick="toggleDarkMode()">🌙</button>
+	        </div>
+	    </nav>
+	</div>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Blog Posts List -->
+        <div class="col-md-9">
+            <div th:each="post : ${posts}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>
+                            <a th:href="@{'/view/' + ${post.id}}" class="text-primary" th:text="${post.title}">Post Title</a>
+                        </h5>
+                        <small class="text-muted" th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">Date</small>
+                        <p>
+                            <span th:utext="${#strings.abbreviate(post.content, 100)}">Post content...</span>
+                            <a th:href="@{'/view/' + ${post.id}}">Read more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Form -->
+        <div class="col-md-3">
+            <div class="search-box">
+                <h5>Blog Search</h5>
+                <form th:action="@{/search}" method="get">
+                    <input type="text" name="query" class="form-control mb-2" placeholder="Search blogs..." th:value="${query}">
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="footer">
+        Copyright © 2026 <a href="#">ExcelR</a>. All rights reserved.
+    </div>
+</div>
+
+<script src="js/common.js"></script>
+
+
+</body>
+</html>
